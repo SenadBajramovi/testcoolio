@@ -4,6 +4,7 @@
 #include "headers\\config.h"
 
 void beginConfig(int, double, Regions);
+Regions strToEnumReg(char*);
 
 void runProgram()
 {
@@ -25,20 +26,20 @@ void runProgram()
         putchar(ch);
     }
 
-    printf("Use default configuration or custom configuration? (Y/N): ");
+    printf("Use default configuration or custom configuration? (D/C): ");
     scanf("%c", &inp);
 
     printf("\n");
 
     switch (inp) {
-        case 'Y':
-        case 'y':
-            printf("Selected Yes (Y).\n\n");
+        case 'D':
+        case 'd':
+            printf("Selected Default (D).\n\n");
             beginConfig(14, 1.5, BICEP); // these are the default settings
             break;
-        case 'N':
-        case 'n':
-            printf("Selected No (N).\n\n");
+        case 'C':
+        case 'c':
+            printf("Selected Custom (C).\n\n");
 
             int dpr, comprate;
             char region[BUFFER_SIZE];
@@ -52,7 +53,8 @@ void runProgram()
             printf("Enter Region: ");
             scanf("%s", region);
             
-            beginConfig(dpr, comprate, strToEnumReg(region));
+            int reg = strToEnumReg(region);
+            beginConfig(dpr, comprate, reg);
             // maybe i can put this all in one function?
 
             break;
@@ -64,7 +66,7 @@ void runProgram()
 }
 
 void beginConfig(int dprate, double comprate, Regions region) { // device pressure rate, compression rate, region, 
-    // some fancy calculations here... will come later
+    // some fancy calculations here... ignore the whole function body
 }
 
 Regions strToEnumReg(char* reg) {
@@ -74,7 +76,7 @@ Regions strToEnumReg(char* reg) {
         return TRICEP;
     } else if (strcmp(reg, "Chest") == 0|| strcmp(reg, "chest") == 0) {
         return CHEST;
-    } else if (strmcp(reg, "Shoulder") == 0 || strcmp(reg, "shoulder") == 0) {
+    } else if (strcmp(reg, "Shoulder") == 0 || strcmp(reg, "shoulder") == 0) {
         return SHOULDER;
     } else {
         return INVALID_REG;
